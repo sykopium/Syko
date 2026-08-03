@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYKO.COM</title>
     <style>
-        /* Base Reset & Dark Minimalist Theme */
+        /* Base Reset & Dark Minimalist Theme with Subtle Charcoal Background Glow */
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         body {
-            background-color: #000000; color: #ffffff;
+            background-color: #000000;
+            background-image: radial-gradient(circle at center, #111111 0%, #000000 70%);
+            color: #ffffff;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             min-height: 100vh; overflow: hidden; display: flex;
             flex-direction: column; justify-content: space-between; align-items: center; padding: 40px 20px;
@@ -17,16 +19,14 @@
         .nav-btn {
             background: none; border: 1px solid rgba(255, 255, 255, 0.4); color: #ffffff;
             padding: 8px 24px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-            border-radius: 50px; cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+            border-radius: 50px; cursor: pointer; transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); text-decoration: none;
             display: inline-flex; align-items: center; justify-content: center;
         }
         .nav-btn:hover { background-color: #ffffff; color: #000000; border-color: #ffffff; transform: scale(1.05); }
         
         /* Main Hero Center Container */
-        main { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        main { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; z-index: 5; }
         main h1 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; line-height: 1.1; }
-        
-        /* NEW: Custom subtitle style sized precisely at 25% of the main heading */
         .hero-subtitle { font-size: calc(clamp(2rem, 6vw, 4.5rem) * 0.25); color: #888888; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 12px; font-weight: 400; }
         
         footer { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; z-index: 10; }
@@ -46,14 +46,39 @@
         
         .menu-logo { font-family: "Courier New", Courier, monospace; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2); }
         .menu-stack { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 14px; margin: auto 0; }
+        
+        /* UPGRADED: Kinetic Motion Actions on Pill Buttons */
         .menu-btn {
             width: 100%; background: none; border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;
             padding: 16px 20px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 50px;
-            cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center;
+            cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; justify-content: center;
         }
-        .menu-btn:hover { border-color: rgba(255, 255, 255, 0.8); background-color: rgba(255, 255, 255, 0.03); transform: translateY(-2px); }
+        .menu-btn:hover { border-color: rgba(255, 255, 255, 0.8); background-color: rgba(255, 255, 255, 0.04); transform: translateY(-3px) scale(1.02); }
         .circle-close-btn { width: 75px; height: 75px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; background: none; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; margin-top: 20px; }
         .circle-close-btn:hover { border-color: #ffffff; transform: scale(1.05); }
+        
+        /* Tour Layout Structures */
+        .tour-header { width: 100%; max-width: 600px; text-align: center; margin-bottom: 20px; }
+        .tour-title { font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; }
+        .tour-list { width: 100%; max-width: 600px; height: 100%; overflow-y: auto; margin-bottom: 20px; }
+        .tour-row { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #1c1c1c; font-size: 13px; }
+        .tour-date-details { display: flex; gap: 25px; }
+        .tour-date { color: #888888; width: 80px; font-weight: bold; }
+        .tour-venue { font-weight: 500; }
+        .ticket-btn { color: #ffffff; text-decoration: none; border: 1px solid #ffffff; padding: 6px 16px; font-size: 10px; text-transform: uppercase; border-radius: 3px; transition: all 0.2s; background: none; cursor: pointer; }
+        .ticket-btn:hover { background-color: #ffffff; color: #000000; }
+        
+        /* Brutalist Confirmation Elements */
+        .confirm-card { border: 1px dashed #ffffff; padding: 30px; border-radius: 8px; background: #000000; width: 100%; max-width: 400px; text-align: center; }
+        .confirm-action-btn { width: 100%; padding: 16px; font-size: 12px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-top: 25px; }
+        .confirm-action-btn.black-white { background: #ffffff; color: #000000; border: 1px solid #ffffff; }
+        .confirm-action-btn.black-white:hover { background: #000000; color: #ffffff; }
+        .brutalist-barcode { width: 100%; height: 50px; margin: 15px 0 5px 0; border-radius: 2px; background: repeating-linear-gradient(90deg, #ffffff, #ffffff 2px, #000000 2px, #000000 6px, #ffffff 6px, #ffffff 8px, #000000 8px, #000000 13px); }
+
+        /* NEW: Working Email Form Component Layout styles */
+        .email-form-container { width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 15px; text-align: center; margin: auto 0; }
+        .email-input { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 16px 24px; color: #fff; text-align: center; font-size: 13px; font-family: monospace; outline: none; transition: border-color 0.3s; }
+        .email-input:focus { border-color: #ffffff; }
     </style>
 </head>
 <body>
@@ -62,7 +87,7 @@
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="nav-btn">Shop</a>
     </header>
     
-    <!-- MAIN HERO CENTER CANVAS WITH SUBTITLE -->
+    <!-- MAIN HERO CENTER CANVAS WITH AMBIENT GLOW TEXT -->
     <main>
         <h1>SYKO.COM</h1>
         <div class="hero-subtitle">Cactus Jack and YSL</div>
@@ -85,10 +110,22 @@
             <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="menu-btn">Shop</a>
             <button class="menu-btn" onclick="openPanelFromMenu('tourOverlay')">Tour</button>
             <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="menu-btn">The Life Of Syko</a>
-            <button class="menu-btn" onclick="alert('Email tracking framework template placeholder')">Email</button>
+            <!-- UPGRADED: Opens a functional minimalist subscription modal panel instead of a generic alert -->
+            <button class="menu-btn" onclick="openPanelFromMenu('emailOverlay')">Email</button>
             <button class="menu-btn" onclick="alert('Text notification blueprint placeholder')">Text</button>
         </div>
         <button class="circle-close-btn" onclick="closePanel('menuOverlay')">✕</button>
+    </div>
+
+    <!-- NEW: WORKING FAN MAIL INTERACTIVE ENTRY BOX -->
+    <div class="fullscreen-overlay" id="emailOverlay" style="justify-content: center;">
+        <div class="email-form-container" id="formWrapper">
+            <h2 style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px;">Mailing List</h2>
+            <p style="font-size: 11px; color: #666; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">Subscribe for future updates</p>
+            <input type="email" placeholder="ENTER YOUR EMAIL" class="email-input" id="fanEmailField" autocomplete="off" spellcheck="false">
+            <button class="menu-btn" style="background: #fff; color: #000; border-color: #fff;" onclick="submitFanEmail()">Submit</button>
+        </div>
+        <button class="circle-close-btn" onclick="closePanel('emailOverlay')">✕</button>
     </div>
 
     <!-- REVISED SCHEDULE PANEL LAYER -->
@@ -200,10 +237,23 @@
             setTimeout(() => { openPanel('ticketOverlay'); }, 300);
         }
 
+        // Fan Mail submission handling code
+        function submitFanEmail() {
+            const emailInput = document.getElementById('fanEmailField');
+            if (emailInput.value.trim() !== "" && emailInput.value.includes('@')) {
+                document.getElementById('formWrapper').innerHTML = `
+                    <h2 style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px; color: #fff;">WELCOME</h2>
+                    <p style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px;">YOU HAVE BEEN ADDED TO THE SYKO REGISTRY.</p>
+                `;
+            } else {
+                alert('PLEASE ENTER A VALID EMAIL ADDRESS.');
+            }
+        }
+
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closePanel('menuOverlay'); closePanel('tourOverlay');
-                closePanel('tierOverlay'); closePanel('confirmOverlay'); closePanel('ticketOverlay');
+                closePanel('tierOverlay'); closePanel('confirmOverlay'); closePanel('ticketOverlay'); closePanel('emailOverlay');
             }
         });
     </script>
