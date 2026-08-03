@@ -347,6 +347,7 @@
             <p contenteditable="true" spellcheck="false">This text section is completely editable. Click here directly inside the browser viewport screen to rewrite titles or custom promotional tags seamlessly.</p>
         </div>
     </main>
+
     <footer>
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="shop-trigger">Shop Now</a>
         <button class="stamp-container" onclick="openPanel('menuOverlay')">
@@ -421,33 +422,30 @@
         <button class="circle-close-btn" onclick="closePanel('albumOverlay')">✕</button>
     </div>
 
-    <!-- Imports the interactive actions script -->
-    <script src="script.js"></script>
+    <script>
+        function openPanel(panelId) {
+            document.getElementById(panelId).classList.add('open');
+        }
+
+        function closePanel(panelId) {
+            document.getElementById(panelId).classList.remove('open');
+        }
+
+        function openPanelFromMenu(targetPanelId) {
+            closePanel('menuOverlay');
+            setTimeout(() => {
+                openPanel(targetPanelId);
+            }, 300);
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePanel('menuOverlay');
+                closePanel('tourOverlay');
+                closePanel('albumOverlay');
+            }
+        });
+    </script>
 </body>
 </html>
-// Open fullscreen viewport panels
-function openPanel(panelId) {
-    document.getElementById(panelId).classList.add('open');
-}
 
-// Close active target overlay panels
-function closePanel(panelId) {
-    document.getElementById(panelId).classList.remove('open');
-}
-
-// Navigation transitional logic switching directly between menus
-function openPanelFromMenu(targetPanelId) {
-    closePanel('menuOverlay');
-    setTimeout(() => {
-        openPanel(targetPanelId);
-    }, 300);
-}
-
-// Close overlays instantly if user presses the "Escape" key
-window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closePanel('menuOverlay');
-        closePanel('tourOverlay');
-        closePanel('albumOverlay');
-    }
-});
