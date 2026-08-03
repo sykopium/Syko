@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Odyssey - Custom Home Screen</title>
+    <style>
+        /* Base Reset & Dark Minimalist Theme */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        /* Top Header Navigation Layout */
+        header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            padding: 8px 24px;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background-color: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* Main Content Hero Area (Editable) */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .editable-container {
+            border: 1px dashed transparent;
+            padding: 20px;
+            border-radius: 8px;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .editable-container:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .editable-container h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 300;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            user-select: text;
+            outline: none;
+        }
+
+        .editable-container p {
+            font-size: clamp(0.75rem, 2vw, 0.95rem);
+            color: #888888;
+            letter-spacing: 0.1em;
+            line-height: 1.6;
+            max-width: 500px;
+            margin: 0 auto;
+            user-select: text;
+            outline: none;
+        }
+
+        /* Bottom Control Panel */
+        footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            z-index: 10;
+        }
+
+        .shop-trigger {
+            font-size: 13px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            background: none;
+            border: none;
+            color: #ffffff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .shop-trigger:hover {
+            color: #aaaaaa;
+            letter-spacing: 0.25em;
+        }
+
+        /* Rotating Stamp Graphic Container */
+        .stamp-container {
+            width: 90px;
+            height: 90px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #ffffff;
+            padding: 0;
+            outline: none;
+        }
+
+        .stamp-graphic {
+            width: 100%;
+            height: 100%;
+            fill: #ffffff;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* --- Global Shared Overlay Layout Style --- */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000000;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 60px 20px;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(40px);
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fullscreen-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
+        /* --- INTERACTIVE MENU OVERLAY PANEL SPECIFIC STYLES --- */
+        .menu-logo-container {
+            width: 100%;
+            max-width: 180px;
+            text-align: center;
+        }
+
+        .menu-logo {
+            font-family: "Courier New", Courier, monospace;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
+            color: #ffffff;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2);
+            user-select: text;
+            outline: none;
+        }
+
+        .menu-stack {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin: auto 0;
+        }
+
+        .menu-btn {
+            width: 100%;
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 16px 20px;
+            font-size: 12px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.25s ease;
+            user-select: text;
+            outline: none;
+        }
+
+        .menu-btn:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            background-color: rgba(255, 255, 255, 0.03);
+            transform: translateY(-2px);
+        }
+
+        .circle-close-btn {
+            width: 75px;
+            height: 75px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            background: none;
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 200;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+            margin-top: 20px;
+        }
+
+        .circle-close-btn:hover {
+            border-color: #ffffff;
+            transform: scale(1.05);
+        }
+
+        /* --- TOUR DATES OVERLAY SPECIFIC STYLES --- */
+        .tour-header, .album-header {
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .tour-title, .album-title {
+            font-size: 20px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .tour-list {
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .tour-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #1c1c1c;
+            font-size: 13px;
+        }
+
+        .tour-date-details {
+            display: flex;
+            gap: 25px;
+            user-select: text;
+            outline: none;
+        }
+
+        .tour-date { color: #888888; width: 80px; }
+        .tour-venue { font-weight: 500; }
+
+        .ticket-btn {
+            color: #ffffff;
+            text-decoration: none;
+            border: 1px solid #ffffff;
+            padding: 6px 16px;
+            font-size: 10px;
+            text-transform: uppercase;
+            border-radius: 3px;
+            transition: all 0.2s;
+            user-select: text;
+            outline: none;
+        }
+
+        .ticket-btn:hover { background-color: #ffffff; color: #000000; }
+
+        /* --- ALBUM OVERLAY STYLES --- */
+        .album-container {
+            width: 100%;
+            max-width: 600px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto 0;
+        }
+
+        .spotify-embed {
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Links -->
+    <header>
+        <button class="nav-btn" onclick="openPanel('tourOverlay')">Tour</button>
+        <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="nav-btn">Shop</a>
+    </header>
+
+    <!-- Main Dynamic Text Canvas -->
+    <main>
+        <div class="editable-container">
+            <h1 contenteditable="true" spellcheck="false">The Odyssey</h1>
+            <p contenteditable="true" spellcheck="false">This text section is completely editable. Click here directly inside the browser viewport screen to rewrite titles or custom promotional tags seamlessly.</p>
+        </div>
+    </main>
+    <footer>
+        <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="shop-trigger">Shop Now</a>
+        <button class="stamp-container" onclick="openPanel('menuOverlay')">
+            <svg class="stamp-graphic" viewBox="0 0 100 100">
+                <path d="M50,15 C45,25 35,25 30,15 C25,25 15,20 18,32 C10,35 12,45 22,46 C15,53 22,62 30,58 C32,68 42,66 50,75 C58,66 68,68 70,58 C78,62 85,53 78,46 C88,45 90,35 82,32 C85,20 75,25 70,15 C65,25 55,25 50,15 Z" fill="none" stroke="currentColor" stroke-width="2"/>
+                <circle cx="50" cy="45" r="8" fill="currentColor"/>
+                <path d="M50,5 L50,10 M50,80 L50,85 M5,45 L10,45 M85,45 L90,45" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+        </button>
+    </footer>
+
+    <div class="fullscreen-overlay" id="menuOverlay">
+        <div class="menu-logo-container">
+            <div class="menu-logo" contenteditable="true" spellcheck="false">Utopia</div>
+        </div>
+
+        <div class="menu-stack">
+            <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="menu-btn" contenteditable="true" spellcheck="false">Shop</a>
+            <button class="menu-btn" onclick="openPanelFromMenu('tourOverlay')" contenteditable="true" spellcheck="false">Tour</button>
+            <button class="menu-btn" onclick="alert('Email signup placeholder tracking')" contenteditable="true" spellcheck="false">Utopia World</button>
+            
+            <button class="menu-btn" onclick="openPanelFromMenu('albumOverlay')" contenteditable="true" spellcheck="false">The Life Of Syko</button>
+            
+            <button class="menu-btn" onclick="alert('Email system placeholder tracking')" contenteditable="true" spellcheck="false">Email</button>
+            <button class="menu-btn" onclick="alert('Text system placeholder tracking')" contenteditable="true" spellcheck="false">Text</button>
+        </div>
+
+        <button class="circle-close-btn" onclick="closePanel('menuOverlay')">✕</button>
+    </div>
+
+    <div class="fullscreen-overlay" id="tourOverlay">
+        <div class="tour-header">
+            <div class="tour-title">Tour Dates</div>
+        </div>
+
+        <div class="tour-list">
+            <div class="tour-row">
+                <div class="tour-date-details" contenteditable="true" spellcheck="false">
+                    <div class="tour-date">OCT 24</div>
+                    <div class="tour-venue">Los Angeles, CA — SoFi Stadium</div>
+                </div>
+                <a href="#" class="ticket-btn" contenteditable="true" spellcheck="false">Tickets</a>
+            </div>
+            <div class="tour-row">
+                <div class="tour-date-details" contenteditable="true" spellcheck="false">
+                    <div class="tour-date">OCT 28</div>
+                    <div class="tour-venue">New York, NY — MetLife Stadium</div>
+                </div>
+                <a href="#" class="ticket-btn" contenteditable="true" spellcheck="false">Tickets</a>
+            </div>
+            <div class="tour-row">
+                <div class="tour-date-details" contenteditable="true" spellcheck="false">
+                    <div class="tour-date">NOV 02</div>
+                    <div class="tour-venue">London, UK — O2 Arena</div>
+                </div>
+                <a href="#" class="ticket-btn" contenteditable="true" spellcheck="false">Sold Out</a>
+            </div>
+        </div>
+
+        <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
+    </div>
+
+    <div class="fullscreen-overlay" id="albumOverlay">
+        <div class="album-header">
+            <div class="album-title">The Life Of Syko</div>
+        </div>
+
+        <div class="album-container">
+            <iframe class="spotify-embed" src="https://spotify.com" width="100%" height="380" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+
+        <button class="circle-close-btn" onclick="closePanel('albumOverlay')">✕</button>
+    </div>
+
+    <!-- Imports the interactive actions script -->
+    <script src="script.js"></script>
+</body>
+</html>
+// Open fullscreen viewport panels
+function openPanel(panelId) {
+    document.getElementById(panelId).classList.add('open');
+}
+
+// Close active target overlay panels
+function closePanel(panelId) {
+    document.getElementById(panelId).classList.remove('open');
+}
+
+// Navigation transitional logic switching directly between menus
+function openPanelFromMenu(targetPanelId) {
+    closePanel('menuOverlay');
+    setTimeout(() => {
+        openPanel(targetPanelId);
+    }, 300);
+}
+
+// Close overlays instantly if user presses the "Escape" key
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closePanel('menuOverlay');
+        closePanel('tourOverlay');
+        closePanel('albumOverlay');
+    }
+});
