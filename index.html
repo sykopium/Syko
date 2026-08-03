@@ -5,420 +5,143 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYKO.COM</title>
     <style>
-        /* Base Reset & Dark Minimalist Theme */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            user-select: none;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; }
         body {
-            background-color: #000000;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            min-height: 100vh;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px 20px;
+            background-color: #000000; color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            min-height: 100vh; overflow: hidden; display: flex;
+            flex-direction: column; justify-content: space-between; align-items: center; padding: 40px 20px;
         }
-
-        /* Top Header Navigation Layout */
-        header {
-            width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-
+        header { width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
         .nav-btn {
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            padding: 8px 24px;
-            font-size: 11px;
-            letter-spacing: 0.15em;
-            text-transform: uppercase;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            background: none; border: 1px solid rgba(255, 255, 255, 0.4); color: #ffffff;
+            padding: 8px 24px; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+            border-radius: 50px; cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center;
         }
-
-        .nav-btn:hover {
-            background-color: #ffffff;
-            color: #000000;
-            border-color: #ffffff;
-            transform: scale(1.05);
-        }
-
-        /* Main Content Hero Area */
-        main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 800px;
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .editable-container {
-            padding: 20px;
-            width: 100%;
-        }
-
-        .editable-container h1 {
-            font-size: clamp(2rem, 6vw, 4.5rem);
-            font-weight: 300;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            outline: none;
-        }
-
-        /* Bottom Control Panel */
-        footer {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 30px;
-            z-index: 10;
-        }
-
-        .shop-trigger {
-            font-size: 13px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            background: none;
-            border: none;
-            color: #ffffff;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-        .shop-trigger:hover {
-            color: #aaaaaa;
-            letter-spacing: 0.25em;
-        }
-
-        /* Rotating Stamp Graphic Container */
-        .stamp-container {
-            width: 90px;
-            height: 90px;
-            cursor: pointer;
-            background: none;
-            border: none;
-            color: #ffffff;
-            padding: 0;
-            outline: none;
-        }
-
-        .stamp-graphic {
-            width: 100%;
-            height: 100%;
-            fill: #ffffff;
-            animation: spin 20s linear infinite;
-        }
-
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-
-        /* --- Global Shared Overlay Layout Style --- */
+        .nav-btn:hover { background-color: #ffffff; color: #000000; border-color: #ffffff; transform: scale(1.05); }
+        main { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        main h1 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; }
+        footer { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; z-index: 10; }
+        .shop-trigger { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; background: none; border: none; color: #ffffff; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
+        .shop-trigger:hover { color: #aaaaaa; letter-spacing: 0.25em; }
+        .stamp-container { width: 90px; height: 90px; cursor: pointer; background: none; border: none; color: #ffffff; padding: 0; outline: none; }
+        .stamp-graphic { width: 100%; height: 100%; fill: #ffffff; animation: spin 20s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .fullscreen-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            z-index: 100;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
-            padding: 60px 20px;
-            opacity: 0;
-            pointer-events: none;
-            transform: translateY(40px);
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000000; z-index: 100;
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 60px 20px;
+            opacity: 0; pointer-events: none; transform: translateY(40px); transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .fullscreen-overlay.open {
-            opacity: 1;
-            pointer-events: auto;
-            transform: translateY(0);
-        }
-
-        /* --- INTERACTIVE MENU OVERLAY PANEL SPECIFIC STYLES --- */
-        .menu-logo-container {
-            width: 100%;
-            max-width: 180px;
-            text-align: center;
-        }
-
-        .menu-logo {
-            font-family: "Courier New", Courier, monospace;
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: -1px;
-            color: #ffffff;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2);
-            outline: none;
-        }
-
-        .menu-stack {
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin: auto 0;
-        }
-
+        .fullscreen-overlay.open { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .menu-logo { font-family: "Courier New", Courier, monospace; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2); }
+        .menu-stack { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 16px; margin: auto 0; }
         .menu-btn {
-            width: 100%;
-            background: none;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
-            padding: 16px 20px;
-            font-size: 12px;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.25s ease;
-            outline: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%; background: none; border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;
+            padding: 16px 20px; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 50px;
+            cursor: pointer; text-decoration: none; text-align: center; transition: all 0.25s ease; display: inline-flex; align-items: center; justify-content: center;
         }
-
-        .menu-btn:hover {
-            border-color: rgba(255, 255, 255, 0.8);
-            background-color: rgba(255, 255, 255, 0.03);
-            transform: translateY(-2px);
-        }
-
-        .circle-close-btn {
-            width: 75px;
-            height: 75px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            background: none;
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 200;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.25s ease;
-            margin-top: 20px;
-        }
-
-        .circle-close-btn:hover {
-            border-color: #ffffff;
-            transform: scale(1.05);
-        }
-
-        /* --- TOUR DATES OVERLAY SPECIFIC STYLES --- */
-        .tour-header {
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .tour-title {
-            font-size: 20px;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-        }
-
-        .tour-list {
-            width: 100%;
-            max-width: 600px;
-            height: 100%;
-            overflow-y: auto;
-            margin-bottom: 20px;
-        }
-
-        .tour-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #1c1c1c;
-            font-size: 13px;
-        }
-
-        .tour-date-details {
-            display: flex;
-            gap: 25px;
-            outline: none;
-        }
-
+        .menu-btn:hover { border-color: rgba(255, 255, 255, 0.8); background-color: rgba(255, 255, 255, 0.03); transform: translateY(-2px); }
+        .circle-close-btn { width: 75px; height: 75px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; background: none; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; margin-top: 20px; }
+        .circle-close-btn:hover { border-color: #ffffff; transform: scale(1.05); }
+        .tour-header { width: 100%; max-width: 600px; text-align: center; margin-bottom: 20px; }
+        .tour-title { font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; }
+        .tour-list { width: 100%; max-width: 600px; height: 100%; overflow-y: auto; margin-bottom: 20px; }
+        .tour-row { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid #1c1c1c; font-size: 13px; }
+        .tour-date-details { display: flex; gap: 25px; }
         .tour-date { color: #888888; width: 80px; }
         .tour-venue { font-weight: 500; }
-
-        .ticket-btn {
-            color: #ffffff;
-            text-decoration: none;
-            border: 1px solid #ffffff;
-            padding: 6px 16px;
-            font-size: 10px;
-            text-transform: uppercase;
-            border-radius: 3px;
-            transition: all 0.2s;
-            outline: none;
-            background: none;
-            cursor: pointer;
-        }
-
+        .ticket-btn { color: #ffffff; text-decoration: none; border: 1px solid #ffffff; padding: 6px 16px; font-size: 10px; text-transform: uppercase; border-radius: 3px; transition: all 0.2s; background: none; cursor: pointer; }
         .ticket-btn:hover { background-color: #ffffff; color: #000000; }
+        .brutalist-barcode {
+            width: 100%; height: 50px; margin: 15px 0 5px 0; border-radius: 2px;
+            background: repeating-linear-gradient(90deg, #ffffff, #ffffff 2px, #000000 2px, #000000 6px, #ffffff 6px, #ffffff 8px, #000000 8px, #000000 13px);
+        }
     </style>
 </head>
 <body>
-
-    <!-- Top Navigation Links -->
     <header>
         <button class="nav-btn" onclick="openPanel('tourOverlay')">Tour</button>
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="nav-btn">Shop</a>
     </header>
-
-    <!-- Main Content Area -->
-    <main>
-        <div class="editable-container">
-            <h1>SYKO.COM</h1>
-        </div>
-    </main>
-
+    <main><h1>SYKO.COM</h1></main>
     <footer>
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="shop-trigger">Shop Now</a>
         <button class="stamp-container" onclick="openPanel('menuOverlay')">
             <svg class="stamp-graphic" viewBox="0 0 100 100">
                 <path d="M50,15 C45,25 35,25 30,15 C25,25 15,20 18,32 C10,35 12,45 22,46 C15,53 22,62 30,58 C32,68 42,66 50,75 C58,66 68,68 70,58 C78,62 85,53 78,46 C88,45 90,35 82,32 C85,20 75,25 70,15 C65,25 55,25 50,15 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-                <circle cx="50" cy="45" r="8" fill="currentColor"/>
-                <path d="M50,5 L50,10 M50,80 L50,85 M5,45 L10,45 M85,45 L90,45" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="50" cy="45" r="8" fill="currentColor"/><path d="M50,5 L50,10 M50,80 L50,85 M5,45 L10,45 M85,45 L90,45" stroke="currentColor" stroke-width="1.5"/>
             </svg>
         </button>
     </footer>
-
-    <!-- POPUP MENU NAVIGATION PANEL -->
     <div class="fullscreen-overlay" id="menuOverlay">
-        <div class="menu-logo-container">
-            <div class="menu-logo">SYKO</div>
-        </div>
-
+        <div class="menu-logo">SYKO</div>
         <div class="menu-stack">
             <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="menu-btn">Shop</a>
             <button class="menu-btn" onclick="openPanelFromMenu('tourOverlay')">Tour</button>
-            
-            <!-- FIXED: Direct external app link that bypasses the gray embed box completely -->
             <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="menu-btn">The Life Of Syko</a>
-            
-            <button class="menu-btn" onclick="alert('Email system integration placeholder')">Email</button>
-            <button class="menu-btn" onclick="alert('Text notification framework placeholder')">Text</button>
+            <button class="menu-btn" onclick="alert('Email system blueprint placeholder')">Email</button>
+            <button class="menu-btn" onclick="alert('Text system blueprint placeholder')">Text</button>
         </div>
-
         <button class="circle-close-btn" onclick="closePanel('menuOverlay')">✕</button>
     </div>
-
-    <!-- TOUR DATES MANAGEMENT PANEL -->
     <div class="fullscreen-overlay" id="tourOverlay">
-        <div class="tour-header">
-            <div class="tour-title">Tour Dates</div>
-        </div>
-
+        <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
         <div class="tour-list">
             <div class="tour-row">
-                <div class="tour-date-details">
-                    <div class="tour-date">AUG 24</div>
-                    <div class="tour-venue">Los Angeles, CA — SoFi Stadium</div>
-                </div>
-                <button class="ticket-btn" onclick="generateTicket('AUG 24', 'SoFi Stadium', 'Los Angeles, CA', 'GA-VIP-001')">Tickets</button>
+                <div class="tour-date-details"><div class="tour-date">AUG 24</div><div class="tour-venue">Los Angeles, CA — SoFi Stadium</div></div>
+                <button class="ticket-btn" onclick="selectTier('AUG 24', 'SoFi Stadium', 'Los Angeles, CA')">Tickets</button>
             </div>
             <div class="tour-row">
-                <div class="tour-date-details">
-                    <div class="tour-date">AUG 28</div>
-                    <div class="tour-venue">New York, NY — MetLife Stadium</div>
-                </div>
-                <button class="ticket-btn" onclick="generateTicket('AUG 28', 'MetLife Stadium', 'New York, NY', 'GA-VIP-002')">Tickets</button>
+                <div class="tour-date-details"><div class="tour-date">AUG 28</div><div class="tour-venue">New York, NY — MetLife Stadium</div></div>
+                <button class="ticket-btn" onclick="selectTier('AUG 28', 'MetLife Stadium', 'New York, NY')">Tickets</button>
             </div>
         </div>
-
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
     </div>
-
-    <!-- FAKE TICKET VIRTUAL GENERATOR MODAL -->
+    <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
+        <h2 style="font-size: 18px; letter-spacing: 0.15em; text-transform: uppercase;">Select Ticket Area</h2>
+        <div class="menu-stack">
+            <button class="menu-btn" onclick="generateTicket('REGULAR FAN AREA', 'SEC GA / ROW FLOOR')">Regular Fan Area</button>
+            <button class="menu-btn" onclick="generateTicket('VIP ACCESS PASS', 'SEC VIP / ROW FRONT')">VIP Area</button>
+            <button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="generateTicket('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK')">SYK Backstage Pass</button>
+        </div>
+        <button class="circle-close-btn" onclick="closePanel('tierOverlay')">✕</button>
+    </div>
     <div class="fullscreen-overlay" id="ticketOverlay" style="justify-content: center; gap: 30px;">
         <div style="border: 2px dashed rgba(255,255,255,0.4); padding: 30px; border-radius: 12px; background: #070707; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); font-family: monospace;">
-            <div style="font-size: 24px; font-weight: 900; letter-spacing: 3px; color: #ffffff; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">SYKO ADMIT ONE</div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;">
-                <span>EVENT:</span><span style="color:#fff; font-weight:bold;">THE LIFE OF SYKO LIVE</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;">
-                <span>DATE:</span><span id="tixDate" style="color:#fff; font-weight:bold;">-</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;">
-                <span>VENUE:</span><span id="tixVenue" style="color:#fff; font-weight:bold;">-</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #888;">
-                <span>LOCATION:</span><span id="tixLoc" style="color:#fff; font-weight:bold;">-</span>
-            </div>
-            <div style="background: white; color: black; padding: 10px; font-weight: 900; letter-spacing: 5px; font-size: 14px; margin-bottom: 15px; border-radius: 4px;" id="tixSerial">SERIAL-ID</div>
-            <div style="font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 1px;">SEC VIP / ROW GA / PASS ACTIVE</div>
+            <div style="font-size: 20px; font-weight: 900; letter-spacing: 2px; color: #ffffff; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;" id="tixTitle">SYKO ADMIT ONE</div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>EVENT:</span><span style="color:#fff; font-weight:bold;">THE LIFE OF SYKO LIVE</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>DATE:</span><span id="tixDate">-</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>VENUE:</span><span id="tixVenue">-</span></div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #888;"><span>LOCATION:</span><span id="tixLoc">-</span></div>
+            <div class="brutalist-barcode"></div>
+            <div style="background: white; color: black; padding: 10px; font-weight: 900; letter-spacing: 4px; font-size: 13px; margin-bottom: 15px; border-radius: 4px;" id="tixSerial">SERIAL-ID</div>
+            <div style="font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 1px;" id="tixRowMeta">SEC GA / ROW FLOOR / PASS ACTIVE</div>
         </div>
         <button class="circle-close-btn" onclick="closePanel('ticketOverlay')">✕</button>
     </div>
-
     <script>
-        function openPanel(panelId) {
-            document.getElementById(panelId).classList.add('open');
-        }
-
-        function closePanel(panelId) {
-            document.getElementById(panelId).classList.remove('open');
-        }
-
-        function openPanelFromMenu(targetPanelId) {
-            closePanel('menuOverlay');
-            setTimeout(() => { openPanel(targetPanelId); }, 300);
-        }
-
-        function generateTicket(date, venue, location, serial) {
-            document.getElementById('tixDate').innerText = date;
-            document.getElementById('tixVenue').innerText = venue;
-            document.getElementById('tixLoc').innerText = location;
+        let sDate = '', sVenue = '', sLoc = '';
+        function openPanel(id) { document.getElementById(id).classList.add('open'); }
+        function closePanel(id) { document.getElementById(id).classList.remove('open'); }
+        function openPanelFromMenu(id) { closePanel('menuOverlay'); setTimeout(() => { openPanel(id); }, 300); }
+        function selectTier(d, v, l) { sDate = d; sVenue = v; sLoc = l; closePanel('tourOverlay'); setTimeout(() => { openPanel('tierOverlay'); }, 300); }
+        function generateTicket(t, r) {
+            closePanel('tierOverlay');
+            const serial = 'SK-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('tixTitle').innerText = t;
+            document.getElementById('tixDate').innerText = sDate;
+            document.getElementById('tixDate').style.color = '#fff'; document.getElementById('tixDate').style.fontWeight = 'bold';
+            document.getElementById('tixVenue').innerText = sVenue;
+            document.getElementById('tixVenue').style.color = '#fff'; document.getElementById('tixVenue').style.fontWeight = 'bold';
+            document.getElementById('tixLoc').innerText = sLoc;
+            document.getElementById('tixLoc').style.color = '#fff'; document.getElementById('tixLoc').style.fontWeight = 'bold';
             document.getElementById('tixSerial').innerText = serial;
-            openPanel('ticketOverlay');
+            document.getElementById('tixRowMeta').innerText = r + ' / PASS ACTIVE';
+            setTimeout(() => { openPanel('ticketOverlay'); }, 300);
         }
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePanel('menuOverlay');
-                closePanel('tourOverlay');
-                closePanel('ticketOverlay');
-            }
-        });
+        window.addEventListener('keydown', (e) => { if (e.key === 'Escape') { closePanel('menuOverlay'); closePanel('tourOverlay'); closePanel('tierOverlay'); closePanel('ticketOverlay'); } });
     </script>
 </body>
 </html>
-
