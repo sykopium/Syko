@@ -21,8 +21,14 @@
             display: inline-flex; align-items: center; justify-content: center;
         }
         .nav-btn:hover { background-color: #ffffff; color: #000000; border-color: #ffffff; transform: scale(1.05); }
+        
+        /* Main Hero Center Container */
         main { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
-        main h1 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; }
+        main h1 { font-size: clamp(2rem, 6vw, 4.5rem); font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; line-height: 1.1; }
+        
+        /* NEW: Custom subtitle style sized precisely at 25% of the main heading */
+        .hero-subtitle { font-size: calc(clamp(2rem, 6vw, 4.5rem) * 0.25); color: #888888; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 12px; font-weight: 400; }
+        
         footer { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 30px; z-index: 10; }
         .shop-trigger { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; background: none; border: none; color: #ffffff; cursor: pointer; transition: all 0.3s ease; text-decoration: none; }
         .shop-trigger:hover { color: #aaaaaa; letter-spacing: 0.25em; }
@@ -48,32 +54,6 @@
         .menu-btn:hover { border-color: rgba(255, 255, 255, 0.8); background-color: rgba(255, 255, 255, 0.03); transform: translateY(-2px); }
         .circle-close-btn { width: 75px; height: 75px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 50%; background: none; color: #ffffff; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.25s ease; margin-top: 20px; }
         .circle-close-btn:hover { border-color: #ffffff; transform: scale(1.05); }
-        
-        /* Tour Layout Structures */
-        .tour-header { width: 100%; max-width: 600px; text-align: center; margin-bottom: 20px; }
-        .tour-title { font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; }
-        .tour-list { width: 100%; max-width: 600px; height: 100%; overflow-y: auto; margin-bottom: 20px; }
-        .tour-row { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #1c1c1c; font-size: 13px; }
-        .tour-date-details { display: flex; gap: 25px; }
-        .tour-date { color: #888888; width: 80px; font-weight: bold; }
-        .tour-venue { font-weight: 500; }
-        .ticket-btn { color: #ffffff; text-decoration: none; border: 1px solid #ffffff; padding: 6px 16px; font-size: 10px; text-transform: uppercase; border-radius: 3px; transition: all 0.2s; background: none; cursor: pointer; }
-        .ticket-btn:hover { background-color: #ffffff; color: #000000; }
-        
-        /* Brutalist Confirmation Elements */
-        .confirm-card {
-            border: 1px dashed #ffffff; padding: 30px; border-radius: 8px; background: #000000; width: 100%; max-width: 400px; text-align: center;
-        }
-        .confirm-action-btn {
-            width: 100%; padding: 16px; font-size: 12px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-top: 25px;
-        }
-        .confirm-action-btn.black-white { background: #ffffff; color: #000000; border: 1px solid #ffffff; }
-        .confirm-action-btn.black-white:hover { background: #000000; color: #ffffff; }
-        
-        .brutalist-barcode {
-            width: 100%; height: 50px; margin: 15px 0 5px 0; border-radius: 2px;
-            background: repeating-linear-gradient(90deg, #ffffff, #ffffff 2px, #000000 2px, #000000 6px, #ffffff 6px, #ffffff 8px, #000000 8px, #000000 13px);
-        }
     </style>
 </head>
 <body>
@@ -81,7 +61,13 @@
         <button class="nav-btn" onclick="openPanel('tourOverlay')">Tour</button>
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="nav-btn">Shop</a>
     </header>
-    <main><h1>SYKO.COM</h1></main>
+    
+    <!-- MAIN HERO CENTER CANVAS WITH SUBTITLE -->
+    <main>
+        <h1>SYKO.COM</h1>
+        <div class="hero-subtitle">Cactus Jack and YSL</div>
+    </main>
+    
     <footer>
         <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="shop-trigger">Shop Now</a>
         <button class="stamp-container" onclick="openPanel('menuOverlay')">
@@ -92,7 +78,7 @@
         </button>
     </footer>
 
-    <!-- MAIN CONTROL LINKS OVERLAY -->
+    <!-- POPUP MENU NAVIGATION PANEL -->
     <div class="fullscreen-overlay" id="menuOverlay">
         <div class="menu-logo">SYKO</div>
         <div class="menu-stack">
@@ -120,18 +106,18 @@
         </div>
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
     </div>
-
-    <!-- UPGRADED SEAT PRIORITY SELECTION MATRIX -->
+    <!-- SEAT SELECTION MATRIX LAYER -->
     <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
         <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
         <div class="menu-stack">
-            <button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR', baseFan)">Fan Zone</button>
+            <button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR')">Fan Zone</button>
             <button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID')">Regular</button>
             <button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT')">VIP Area</button>
             <button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK')">SYK Backstage Pass</button>
         </div>
         <button class="circle-close-btn" onclick="closePanel('tierOverlay')">✕</button>
     </div>
+
     <!-- BLACK-AND-WHITE TRANSACTION CONFIRMATION SCREEN -->
     <div class="fullscreen-overlay" id="confirmOverlay" style="justify-content: center;">
         <div class="confirm-card">
@@ -145,9 +131,7 @@
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; font-family: monospace; color: #888; border-bottom: 1px dashed #333; padding-bottom: 15px;">
                 <span>TOTAL COST:</span><span id="confPrice" style="color:#fff; font-weight:bold; letter-spacing: 1px;">-</span>
             </div>
-            
             <p style="font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4;">Click below to lock in your allocation data. This action generates a final digital entry code signature pass.</p>
-            
             <button class="confirm-action-btn black-white" onclick="commitTicket()">Confirm Selection</button>
         </div>
         <button class="circle-close-btn" onclick="closePanel('confirmOverlay')">✕</button>
@@ -161,7 +145,9 @@
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>DATE:</span><span style="color:#fff; font-weight:bold;">AUGUST</span></div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>VENUE:</span><span id="tixVenue">-</span></div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #888;"><span>LOCATION:</span><span id="tixLoc">-</span></div>
+            
             <div class="brutalist-barcode"></div>
+            
             <div style="background: white; color: black; padding: 10px; font-weight: 900; letter-spacing: 4px; font-size: 13px; margin-bottom: 15px; border-radius: 4px;" id="tixSerial">SERIAL-ID</div>
             <div style="font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 1px;" id="tixRowMeta">SEC GA / ROW FLOOR / PASS ACTIVE</div>
         </div>
@@ -169,7 +155,6 @@
     </div>
 
     <script>
-        // System wide context registers
         let currentCity = '', currentVenue = '', currentLocStr = '';
         let pFan = 0, pReg = 0, pVip = 0, pSyk = 0;
         let selectedTierName = '', selectedRowMeta = '', selectedFinalPrice = '';
@@ -178,7 +163,6 @@
         function closePanel(id) { document.getElementById(id).classList.remove('open'); }
         function openPanelFromMenu(id) { closePanel('menuOverlay'); setTimeout(() => { openPanel(id); }, 300); }
 
-        // Route show pricing metrics safely
         function selectTier(city, venue, locStr, fanCost, regCost, vipCost, sykCost) {
             currentCity = city; currentVenue = venue; currentLocStr = locStr;
             pFan = fanCost; pReg = regCost; pVip = vipCost; pSyk = sykCost;
@@ -186,13 +170,11 @@
             setTimeout(() => { openPanel('tierOverlay'); }, 300);
         }
 
-        // Dynamically parse pricing logic maps based on user location state context
         function reviewSelection(tierName, rowMeta) {
             closePanel('tierOverlay');
             selectedTierName = tierName;
             selectedRowMeta = rowMeta;
             
-            // Compute real pricing boundaries mapped specifically by city constraints
             if (tierName === 'FAN ZONE') selectedFinalPrice = '$' + pFan + '.00 USD';
             else if (tierName === 'REGULAR AREA') selectedFinalPrice = '$' + pReg + '.00 USD';
             else if (tierName === 'VIP ACCESS PASS') selectedFinalPrice = '$' + pVip + '.00 USD';
@@ -205,7 +187,6 @@
             setTimeout(() => { openPanel('confirmOverlay'); }, 300);
         }
 
-        // Commit state parameters to final barcode layout generation
         function commitTicket() {
             closePanel('confirmOverlay');
             const serial = 'SK-' + Math.floor(100000 + Math.random() * 900000);
