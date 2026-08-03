@@ -47,7 +47,7 @@
         .menu-logo { font-family: "Courier New", Courier, monospace; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.2); }
         .menu-stack { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 14px; margin: auto 0; }
         
-        /* UPGRADED: Kinetic Motion Actions on Pill Buttons */
+        /* Kinetic Motion Actions on Pill Buttons */
         .menu-btn {
             width: 100%; background: none; border: 1px solid rgba(255, 255, 255, 0.25); color: #ffffff;
             padding: 16px 20px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; border-radius: 50px;
@@ -75,7 +75,7 @@
         .confirm-action-btn.black-white:hover { background: #000000; color: #ffffff; }
         .brutalist-barcode { width: 100%; height: 50px; margin: 15px 0 5px 0; border-radius: 2px; background: repeating-linear-gradient(90deg, #ffffff, #ffffff 2px, #000000 2px, #000000 6px, #ffffff 6px, #ffffff 8px, #000000 8px, #000000 13px); }
 
-        /* NEW: Working Email Form Component Layout styles */
+        /* Working Email Form Component Layout styles */
         .email-form-container { width: 100%; max-width: 350px; display: flex; flex-direction: column; gap: 15px; text-align: center; margin: auto 0; }
         .email-input { width: 100%; background: #000; border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 16px 24px; color: #fff; text-align: center; font-size: 13px; font-family: monospace; outline: none; transition: border-color 0.3s; }
         .email-input:focus { border-color: #ffffff; }
@@ -110,14 +110,13 @@
             <a href="https://travisscott.com" target="_blank" rel="noopener noreferrer" class="menu-btn">Shop</a>
             <button class="menu-btn" onclick="openPanelFromMenu('tourOverlay')">Tour</button>
             <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" class="menu-btn">The Life Of Syko</a>
-            <!-- UPGRADED: Opens a functional minimalist subscription modal panel instead of a generic alert -->
             <button class="menu-btn" onclick="openPanelFromMenu('emailOverlay')">Email</button>
             <button class="menu-btn" onclick="alert('Text notification blueprint placeholder')">Text</button>
         </div>
         <button class="circle-close-btn" onclick="closePanel('menuOverlay')">✕</button>
     </div>
 
-    <!-- NEW: WORKING FAN MAIL INTERACTIVE ENTRY BOX -->
+    <!-- MAIL ENTRY SCREEN PANEL -->
     <div class="fullscreen-overlay" id="emailOverlay" style="justify-content: center;">
         <div class="email-form-container" id="formWrapper">
             <h2 style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px;">Mailing List</h2>
@@ -128,17 +127,24 @@
         <button class="circle-close-btn" onclick="closePanel('emailOverlay')">✕</button>
     </div>
 
-    <!-- REVISED SCHEDULE PANEL LAYER -->
+    <!-- DYNAMIC TOUR SCHEDULE WINDOW MODAL -->
     <div class="fullscreen-overlay" id="tourOverlay">
         <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
         <div class="tour-list">
+            <!-- NEW TOP ROW: Diamonds Club in Ferizaj with Euro Parameters -->
+            <div class="tour-row">
+                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
+                <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club', 'Ferizaj', 'EUR', 0, 20, 50, 0)">Tickets</button>
+            </div>
+            <!-- Los Angeles Row -->
             <div class="tour-row">
                 <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Los Angeles, CA — SoFi Stadium</div></div>
-                <button class="ticket-btn" onclick="selectTier('Los Angeles', 'SoFi Stadium', 'Los Angeles, CA', 85, 110, 550, 3200)">Tickets</button>
+                <button class="ticket-btn" onclick="selectTier('Los Angeles', 'SoFi Stadium', 'Los Angeles, CA', 'USD', 85, 110, 550, 3200)">Tickets</button>
             </div>
+            <!-- New York Row -->
             <div class="tour-row">
                 <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">New York, NY — MetLife Stadium</div></div>
-                <button class="ticket-btn" onclick="selectTier('New York', 'MetLife Stadium', 'New York, NY', 90, 120, 650, 4500)">Tickets</button>
+                <button class="ticket-btn" onclick="selectTier('New York', 'MetLife Stadium', 'New York, NY', 'USD', 90, 120, 650, 4500)">Tickets</button>
             </div>
         </div>
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
@@ -146,11 +152,8 @@
     <!-- SEAT SELECTION MATRIX LAYER -->
     <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
         <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
-        <div class="menu-stack">
-            <button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR')">Fan Zone</button>
-            <button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID')">Regular</button>
-            <button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT')">VIP Area</button>
-            <button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK')">SYK Backstage Pass</button>
+        <div class="menu-stack" id="tierButtonsContainer">
+            <!-- Populated dynamically by JavaScript to hide empty pricing tiers -->
         </div>
         <button class="circle-close-btn" onclick="closePanel('tierOverlay')">✕</button>
     </div>
@@ -192,7 +195,7 @@
     </div>
 
     <script>
-        let currentCity = '', currentVenue = '', currentLocStr = '';
+        let currentCity = '', currentVenue = '', currentLocStr = '', currentCurrency = 'USD';
         let pFan = 0, pReg = 0, pVip = 0, pSyk = 0;
         let selectedTierName = '', selectedRowMeta = '', selectedFinalPrice = '';
 
@@ -200,22 +203,42 @@
         function closePanel(id) { document.getElementById(id).classList.remove('open'); }
         function openPanelFromMenu(id) { closePanel('menuOverlay'); setTimeout(() => { openPanel(id); }, 300); }
 
-        function selectTier(city, venue, locStr, fanCost, regCost, vipCost, sykCost) {
-            currentCity = city; currentVenue = venue; currentLocStr = locStr;
+        function selectTier(city, venue, locStr, currency, fanCost, regCost, vipCost, sykCost) {
+            currentCity = city; currentVenue = venue; currentLocStr = locStr; currentCurrency = currency;
             pFan = fanCost; pReg = regCost; pVip = vipCost; pSyk = sykCost;
+            
+            // Build the tier selection window dynamically depending on what prices exist
+            const container = document.getElementById('tierButtonsContainer');
+            let buttonsHtml = '';
+            const symbol = currentCurrency === 'EUR' ? '€' : '$';
+
+            if (pFan > 0) {
+                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR', ${pFan})">Fan Zone (${symbol}${pFan})</button>`;
+            }
+            if (pReg > 0) {
+                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID', ${pReg})">Regular (${symbol}${pReg})</button>`;
+            }
+            if (pVip > 0) {
+                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT', ${pVip})">VIP Area (${symbol}${pVip})</button>`;
+            }
+            if (pSyk > 0) {
+                const displayCost = pSyk >= 1000 ? (pSyk/1000).toFixed(1) + 'k' : pSyk;
+                buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK', ${pSyk})">SYK Backstage Pass (${symbol}${displayCost})</button>`;
+            }
+
+            container.innerHTML = buttonsHtml;
             closePanel('tourOverlay');
             setTimeout(() => { openPanel('tierOverlay'); }, 300);
         }
 
-        function reviewSelection(tierName, rowMeta) {
+        function reviewSelection(tierName, rowMeta, costValue) {
             closePanel('tierOverlay');
             selectedTierName = tierName;
             selectedRowMeta = rowMeta;
             
-            if (tierName === 'FAN ZONE') selectedFinalPrice = '$' + pFan + '.00 USD';
-            else if (tierName === 'REGULAR AREA') selectedFinalPrice = '$' + pReg + '.00 USD';
-            else if (tierName === 'VIP ACCESS PASS') selectedFinalPrice = '$' + pVip + '.00 USD';
-            else if (tierName === 'SYK PASS (BACKSTAGE)') selectedFinalPrice = '$' + (pSyk >= 1000 ? (pSyk/1000).toFixed(1) + 'k' : pSyk) + '.00 USD';
+            const symbol = currentCurrency === 'EUR' ? '€' : '$';
+            const displayCost = costValue >= 1000 ? (costValue/1000).toFixed(1) + 'k' : costValue;
+            selectedFinalPrice = symbol + displayCost + '.00 ' + currentCurrency;
 
             document.getElementById('confLocation').innerText = currentCity.toUpperCase();
             document.getElementById('confTier').innerText = tierName;
@@ -237,7 +260,6 @@
             setTimeout(() => { openPanel('ticketOverlay'); }, 300);
         }
 
-        // Fan Mail submission handling code
         function submitFanEmail() {
             const emailInput = document.getElementById('fanEmailField');
             if (emailInput.value.trim() !== "" && emailInput.value.includes('@')) {
