@@ -62,9 +62,9 @@
         .tour-title { font-size: 20px; letter-spacing: 0.2em; text-transform: uppercase; }
         .tour-list { width: 100%; max-width: 600px; height: 100%; overflow-y: auto; margin-bottom: 20px; }
         .tour-row { display: flex; justify-content: space-between; align-items: center; padding: 25px 0; border-bottom: 1px solid #1c1c1c; font-size: 13px; }
-        .tour-date-details { display: flex; gap: 25px; }
-        .tour-date { color: #888888; width: 80px; font-weight: bold; }
-        .tour-venue { font-weight: 500; }
+        .tour-date-details { display: flex; gap: 25px; align-items: center; text-align: left; }
+        .tour-date { color: #888888; width: 90px; font-weight: bold; font-size: 11px; line-height: 1.4; letter-spacing: 0.05em; }
+        .tour-venue { font-weight: 500; line-height: 1.4; }
         .ticket-btn { color: #ffffff; text-decoration: none; border: 1px solid #ffffff; padding: 6px 16px; font-size: 10px; text-transform: uppercase; border-radius: 3px; transition: all 0.2s; background: none; cursor: pointer; }
         .ticket-btn:hover { background-color: #ffffff; color: #000000; }
         
@@ -131,7 +131,15 @@
     <div class="fullscreen-overlay" id="tourOverlay">
         <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
         <div class="tour-list">
-            <!-- NEW TOP ROW: Diamonds Club in Ferizaj with Euro Parameters -->
+            <!-- NEW TOP ROW: Prishtina Mall Parking Lot in Lipjan with Core Timestamps -->
+            <div class="tour-row">
+                <div class="tour-date-details">
+                    <div class="tour-date">AUG 5 (2AM)<br>AUG 6 (1:30AM)</div>
+                    <div class="tour-venue">Lipjan, Kosovo<br>Prishtina Mall Parking Lot</div>
+                </div>
+                <button class="ticket-btn" onclick="selectSpecialTier('Lipjan', 'Prishtina Mall Parking Lot', 'Lipjan, Kosovo', 'EUR', 100, 500, 750, 1250)">Tickets</button>
+            </div>
+            <!-- Ferizaj Row -->
             <div class="tour-row">
                 <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
                 <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club', 'Ferizaj', 'EUR', 0, 20, 50, 0)">Tickets</button>
@@ -153,7 +161,7 @@
     <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
         <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
         <div class="menu-stack" id="tierButtonsContainer">
-            <!-- Populated dynamically by JavaScript to hide empty pricing tiers -->
+            <!-- Populated dynamically by JavaScript -->
         </div>
         <button class="circle-close-btn" onclick="closePanel('tierOverlay')">✕</button>
     </div>
@@ -185,15 +193,12 @@
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>DATE:</span><span style="color:#fff; font-weight:bold;">AUGUST</span></div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>VENUE:</span><span id="tixVenue">-</span></div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #888;"><span>LOCATION:</span><span id="tixLoc">-</span></div>
-            
             <div class="brutalist-barcode"></div>
-            
             <div style="background: white; color: black; padding: 10px; font-weight: 900; letter-spacing: 4px; font-size: 13px; margin-bottom: 15px; border-radius: 4px;" id="tixSerial">SERIAL-ID</div>
             <div style="font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 1px;" id="tixRowMeta">SEC GA / ROW FLOOR / PASS ACTIVE</div>
         </div>
         <button class="circle-close-btn" onclick="closePanel('ticketOverlay')">✕</button>
     </div>
-
     <script>
         let currentCity = '', currentVenue = '', currentLocStr = '', currentCurrency = 'USD';
         let pFan = 0, pReg = 0, pVip = 0, pSyk = 0;
@@ -207,24 +212,31 @@
             currentCity = city; currentVenue = venue; currentLocStr = locStr; currentCurrency = currency;
             pFan = fanCost; pReg = regCost; pVip = vipCost; pSyk = sykCost;
             
-            // Build the tier selection window dynamically depending on what prices exist
             const container = document.getElementById('tierButtonsContainer');
             let buttonsHtml = '';
             const symbol = currentCurrency === 'EUR' ? '€' : '$';
 
-            if (pFan > 0) {
-                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR', ${pFan})">Fan Zone (${symbol}${pFan})</button>`;
-            }
-            if (pReg > 0) {
-                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID', ${pReg})">Regular (${symbol}${pReg})</button>`;
-            }
-            if (pVip > 0) {
-                buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT', ${pVip})">VIP Area (${symbol}${pVip})</button>`;
-            }
-            if (pSyk > 0) {
-                const displayCost = pSyk >= 1000 ? (pSyk/1000).toFixed(1) + 'k' : pSyk;
-                buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK', ${pSyk})">SYK Backstage Pass (${symbol}${displayCost})</button>`;
-            }
+            if (pFan > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR', ${pFan})">Fan Zone (${symbol}${pFan})</button>`;
+            if (pReg > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID', ${pReg})">Regular (${symbol}${pReg})</button>`;
+            if (pVip > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT', ${pVip})">VIP Area (${symbol}${pVip})</button>`;
+            if (pSyk > 0) buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK', ${pSyk})">SYK Backstage Pass (${symbol}${pSyk})</button>`;
+
+            container.innerHTML = buttonsHtml;
+            closePanel('tourOverlay');
+            setTimeout(() => { openPanel('tierOverlay'); }, 300);
+        }
+
+        function selectSpecialTier(city, venue, locStr, currency, fanPit, vip, ultraVip, premiumVip) {
+            currentCity = city; currentVenue = venue; currentLocStr = locStr; currentCurrency = currency;
+            const container = document.getElementById('tierButtonsContainer');
+            const symbol = '€';
+            
+            let buttonsHtml = '';
+            buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN PIT', 'SEC FP / ROW FRONT', ${fanPit})">Fan Pit (${symbol}${fanPit})</button>`;
+            buttonsHtml += `<button class="menu-btn" onclick="alert('Regular Block configurations arriving soon.')">Regular Blocks (€150 - €300)</button>`;
+            buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP AREA', 'SEC VIP / ROW PLATINUM', ${vip})">VIP Area (${symbol}${vip})</button>`;
+            buttonsHtml += `<button class="menu-btn" style="border-color: #e5a93c; color: #e5a93c;" onclick="reviewSelection('ULTRA VIP PASS', 'SEC UVIP / ROW GOLD', ${ultraVip})">Ultra VIP (${symbol}${ultraVip})</button>`;
+            buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('PREMIUM VIP PASS', 'SEC PVIP / ROW MAX', ${premiumVip})">Premium VIP (${symbol}${premiumVip})</button>`;
 
             container.innerHTML = buttonsHtml;
             closePanel('tourOverlay');
@@ -237,8 +249,7 @@
             selectedRowMeta = rowMeta;
             
             const symbol = currentCurrency === 'EUR' ? '€' : '$';
-            const displayCost = costValue >= 1000 ? (costValue/1000).toFixed(1) + 'k' : costValue;
-            selectedFinalPrice = symbol + displayCost + '.00 ' + currentCurrency;
+            selectedFinalPrice = symbol + costValue + '.00 ' + currentCurrency;
 
             document.getElementById('confLocation').innerText = currentCity.toUpperCase();
             document.getElementById('confTier').innerText = tierName;
