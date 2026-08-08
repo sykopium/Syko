@@ -126,28 +126,29 @@
         <button class="circle-close-btn" onclick="closePanel('emailOverlay')">✕</button>
     </div>
     <!-- DYNAMIC TOUR SCHEDULE WINDOW MODAL -->
-     <!-- DYNAMIC TOUR SCHEDULE WINDOW MODAL -->
     <div class="fullscreen-overlay" id="tourOverlay">
         <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
         <div class="tour-list">
-            <!-- Ferizaj Row -->
+            <!-- Diamonds Club — Day 1 (Tracked to vanish at 10:58 PM tonight) -->
+            <div class="tour-row" id="day1Row">
+                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
+                <button class="ticket-btn" style="border-color: rgba(255,255,255,0.15); color: #444444; cursor: not-allowed;" onclick="alert('This performance is completely sold out.')">Sold Out</button>
+            </div>
+            <!-- Diamonds Club — Day 2 (Tracked to flip to Sold Out tomorrow at 9:57 PM and vanish 1hr later) -->
+            <div class="tour-row" id="day2Row">
+                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club (Day 2)</div></div>
+                <button class="ticket-btn" id="day2Btn" onclick="selectTier('Ferizaj', 'Diamonds Club Day 2', 'Ferizaj', 'EUR', 0, 50, 80, 0)">Tickets</button>
+            </div>
+            <!-- Diamonds Club — Day 3 -->
             <div class="tour-row">
-                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
-                <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club', 'Ferizaj', 'EUR', 0, 20, 50, 0)">Tickets</button>
-            </div>
-              <div class="tour-row">
-                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
-                <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club Day 2', 'Ferizaj', 'EUR', 0, 50, 80, 0)">Tickets</button>
-            </div>
-                 <div class="tour-row">
-                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club</div></div>
+                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club (Day 3)</div></div>
                 <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club day 3', 'Ferizaj', 'EUR', 0, 70, 100, 0)">Tickets</button>
             </div>
-     
+        </div>
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
     </div>
+
     <!-- SEAT SELECTION MATRIX LAYER -->
-       <!-- SEAT SELECTION MATRIX LAYER -->
     <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
         <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
         <div class="menu-stack" id="tierButtonsContainer">
@@ -174,7 +175,6 @@
         </div>
         <button class="circle-close-btn" onclick="closePanel('confirmOverlay')">✕</button>
     </div>
-
     <!-- FINAL DIGITAL BARCODE TICKET OVERLAY -->
     <div class="fullscreen-overlay" id="ticketOverlay" style="justify-content: center; gap: 30px;">
         <div style="border: 2px dashed rgba(255,255,255,0.4); padding: 30px; border-radius: 12px; background: #070707; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); font-family: monospace;">
@@ -259,6 +259,39 @@
             }
         }
 
+        // --- AUTOMATED VISIBILITY ENGINE ---
+        function autoMuteAndCleanShows() {
+            const currentDeviceTime = new Date();
+
+            // Day 1 row cleanses completely 1 hour from now (August 8, 2026 at 10:58 PM)
+            const day1RemoveDate = new Date(2026, 7, 8, 22, 58, 0); 
+            if (currentDeviceTime >= day1RemoveDate) {
+                const row1 = document.getElementById('day1Row');
+                if (row1) row1.remove();
+            }
+
+            // Day 2 turns to Sold Out tomorrow at 9:57 PM
+            const day2SoldOutDate = new Date(2026, 7, 9, 21, 57, 0); 
+            // Day 2 vanishes completely 1 hour later at 10:57 PM tomorrow night
+            const day2RemoveDate = new Date(2026, 7, 9, 22, 57, 0); 
+
+            if (currentDeviceTime >= day2RemoveDate) {
+                const row2 = document.getElementById('day2Row');
+                if (row2) row2.remove();
+            } else if (currentDeviceTime >= day2SoldOutDate) {
+                const btn2 = document.getElementById('day2Btn');
+                if (btn2) {
+                    btn2.innerText = "Sold Out";
+                    btn2.style.borderColor = "rgba(255,255,255,0.15)";
+                    btn2.style.color = "#444444";
+                    btn2.style.cursor = "not-allowed";
+                    btn2.onclick = function() { alert('This performance is completely sold out.'); };
+                }
+            }
+        }
+
+        autoMuteAndCleanShows();
+
         window.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 closePanel('menuOverlay'); closePanel('tourOverlay');
@@ -269,4 +302,3 @@
     </script>
 </body>
 </html>
-
