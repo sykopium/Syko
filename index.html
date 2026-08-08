@@ -147,6 +147,7 @@
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
     </div>
     <!-- SEAT SELECTION MATRIX LAYER -->
+       <!-- SEAT SELECTION MATRIX LAYER -->
     <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
         <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
         <div class="menu-stack" id="tierButtonsContainer">
@@ -173,6 +174,7 @@
         </div>
         <button class="circle-close-btn" onclick="closePanel('confirmOverlay')">✕</button>
     </div>
+
     <!-- FINAL DIGITAL BARCODE TICKET OVERLAY -->
     <div class="fullscreen-overlay" id="ticketOverlay" style="justify-content: center; gap: 30px;">
         <div style="border: 2px dashed rgba(255,255,255,0.4); padding: 30px; border-radius: 12px; background: #070707; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); font-family: monospace;">
@@ -217,26 +219,8 @@
             setTimeout(() => { openPanel('tierOverlay'); }, 300);
         }
 
-        function selectSpecialTier(city, venue, locStr, currency, fanPit, vip, ultraVip, premiumVip) {
-            currentCity = city; currentVenue = venue; currentLocStr = locStr; currentCurrency = currency;
-            const container = document.getElementById('tierButtonsContainer');
-            const symbol = '€';
-            
-            let buttonsHtml = '';
-            buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN PIT', 'SEC FP / ROW FRONT', ${fanPit})">Fan Pit (${symbol}${fanPit})</button>`;
-            buttonsHtml += `<button class="menu-btn" onclick="closePanel('tierOverlay'); setTimeout(() => { openPanel('blockOverlay'); }, 300)">Regular Blocks (€150 - €300)</button>`;
-            buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP AREA', 'SEC VIP / ROW PLATINUM', ${vip})">VIP Area (${symbol}${vip})</button>`;
-            buttonsHtml += `<button class="menu-btn" style="border-color: #e5a93c; color: #e5a93c;" onclick="reviewSelection('ULTRA VIP PASS', 'SEC UVIP / ROW GOLD', ${ultraVip})">Ultra VIP (${symbol}${ultraVip})</button>`;
-            buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('PREMIUM VIP PASS', 'SEC PVIP / ROW MAX', ${premiumVip})">Premium VIP (${symbol}${premiumVip})</button>`;
-
-            container.innerHTML = buttonsHtml;
-            closePanel('tourOverlay');
-            setTimeout(() => { openPanel('tierOverlay'); }, 300);
-        }
-
         function reviewSelection(tierName, rowMeta, costValue) {
             closePanel('tierOverlay');
-            closePanel('blockOverlay');
             selectedTierName = tierName;
             selectedRowMeta = rowMeta;
             
@@ -279,9 +263,10 @@
             if (e.key === 'Escape') {
                 closePanel('menuOverlay'); closePanel('tourOverlay');
                 closePanel('tierOverlay'); closePanel('confirmOverlay'); 
-                closePanel('ticketOverlay'); closePanel('emailOverlay'); closePanel('blockOverlay');
+                closePanel('ticketOverlay'); closePanel('emailOverlay');
             }
         });
     </script>
 </body>
 </html>
+
