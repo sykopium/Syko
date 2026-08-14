@@ -89,7 +89,7 @@
     <!-- MAIN HERO CENTER CANVAS WITH SUBTITLE -->
     <main>
         <h1>SYKO.COM</h1>
-        <div class="hero-subtitle">AKOMA out now</div>
+        <div class="hero-subtitle">ASTROWORLD FEST OUT NOW</div>
     </main>
     
     <footer>
@@ -125,165 +125,207 @@
         </div>
         <button class="circle-close-btn" onclick="closePanel('emailOverlay')">✕</button>
     </div>
-    <!-- DYNAMIC TOUR SCHEDULE WINDOW MODAL -->
-    <div class="fullscreen-overlay" id="tourOverlay">
-        <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
-        <div class="tour-list">
+<!-- STAGE / AREA SELECTION -->
+<div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
+
+    <h2 style="
+        font-size: 16px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    ">
+        Select Stage / Area
+    </h2>
+
+    <div class="menu-stack" id="tierButtonsContainer">
+
+        <!-- MAIN STAGE QUADRANTS -->
+
+        <div style="
+            width: 100%;
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 10px;
+            margin-bottom: 8px;
+        ">
+            Main Stage Quadrants
         </div>
-        <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('MAIN STAGE - QUADRANT 1', '16,250', 450)">
+            Quadrant 1
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 16,250
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $450
+            </span>
+        </button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('MAIN STAGE - QUADRANT 2', '25,350', 450)">
+            Quadrant 2
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 25,350
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $450
+            </span>
+        </button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('MAIN STAGE - QUADRANT 3', '43,850', 200)">
+            Quadrant 3
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 43,850
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $200
+            </span>
+        </button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('MAIN STAGE - QUADRANT 4', '45,200', 200)">
+            Quadrant 4
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 45,200
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $200
+            </span>
+        </button>
+
+
+        <!-- MAIN STAGE VIP -->
+
+        <div style="
+            width: 100%;
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        ">
+            Main Stage VIP
+        </div>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('MAIN STAGE VIP - AREA 1', '7,000', 2000)">
+            VIP Area 1
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 7,000
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $2,000
+            </span>
+        </button>
+
+
+        <!-- SECOND STAGE -->
+
+        <div style="
+            width: 100%;
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        ">
+            Second Stage
+        </div>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('SECOND STAGE - AREA 1', '25,000', 500)">
+            Area 1
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 25,000
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $500
+            </span>
+        </button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('SECOND STAGE - AREA 2', '750', 2000)">
+            Area 2
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 750
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $2,000
+            </span>
+        </button>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('SECOND STAGE - AREA 3', '1,500k', 2500)">
+            Area 3
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 1,500k
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $2,500
+            </span>
+        </button>
+
+
+        <!-- THIRD STAGE -->
+
+        <div style="
+            width: 100%;
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        ">
+            Third Stage
+        </div>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('THIRD STAGE - AREA 1', '20,000', 300)">
+            Area 1
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 20,000
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $300
+            </span>
+        </button>
+
+
+        <!-- FOURTH STAGE -->
+
+        <div style="
+            width: 100%;
+            color: #888;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        ">
+            Fourth Stage
+        </div>
+
+        <button class="menu-btn"
+            onclick="reviewSelection('FOURTH STAGE - AREA 1', '19,000', 200)">
+            Area 1
+            <span style="display:block; font-size:9px; color:#666; margin-top:5px;">
+                CAPACITY: 19,000
+            </span>
+            <span style="display:block; margin-top:4px;">
+                $200
+            </span>
+        </button>
+
     </div>
 
-    <!-- SEAT SELECTION MATRIX LAYER -->
-    <div class="fullscreen-overlay" id="tierOverlay" style="justify-content: center; gap: 20px;">
-        <h2 style="font-size: 16px; letter-spacing: 0.15em; text-transform: uppercase;">Select Seat Area</h2>
-        <div class="menu-stack" id="tierButtonsContainer">
-            <!-- Populated dynamically by JavaScript -->
-        </div>
-        <button class="circle-close-btn" onclick="closePanel('tierOverlay')">✕</button>
-    </div>
+    <button class="circle-close-btn" onclick="closePanel('tierOverlay')">
+        ✕
+    </button>
 
-    <!-- BLACK-AND-WHITE TRANSACTION CONFIRMATION SCREEN -->
-    <div class="fullscreen-overlay" id="confirmOverlay" style="justify-content: center;">
-        <div class="confirm-card">
-            <h2 style="font-size: 18px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; border-bottom: 1px dashed #333; padding-bottom: 15px;">Review Selection</h2>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; font-family: monospace; color: #888;">
-                <span>LOCATION:</span><span id="confLocation" style="color:#fff; font-weight:bold;">-</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; font-family: monospace; color: #888;">
-                <span>SEATING ZONE:</span><span id="confTier" style="color:#fff; font-weight:bold;">-</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; font-family: monospace; color: #888; border-bottom: 1px dashed #333; padding-bottom: 15px;">
-                <span>TOTAL COST:</span><span id="confPrice" style="color:#fff; font-weight:bold; letter-spacing: 1px;">-</span>
-            </div>
-            <p style="font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; line-height: 1.4;">Click below to lock in your allocation data. This action generates a final digital entry code signature pass.</p>
-            <button class="confirm-action-btn black-white" onclick="commitTicket()">Confirm Selection</button>
-        </div>
-        <button class="circle-close-btn" onclick="closePanel('confirmOverlay')">✕</button>
-    </div>
-    <!-- FINAL DIGITAL BARCODE TICKET OVERLAY -->
-    <div class="fullscreen-overlay" id="ticketOverlay" style="justify-content: center; gap: 30px;">
-        <div style="border: 2px dashed rgba(255,255,255,0.4); padding: 30px; border-radius: 12px; background: #070707; width: 100%; max-width: 450px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); font-family: monospace;">
-            <div style="font-size: 20px; font-weight: 900; letter-spacing: 2px; color: #ffffff; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;" id="tixTitle">SYKO ADMIT ONE</div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>EVENT:</span><span style="color:#fff; font-weight:bold;">THE LIFE OF SYKO LIVE</span></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>DATE:</span><span style="color:#fff; font-weight:bold;">AUGUST</span></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 12px; color: #888;"><span>VENUE:</span><span id="tixVenue">-</span></div>
-            <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; color: #888;"><span>LOCATION:</span><span id="tixLoc">-</span></div>
-            
-            <div class="brutalist-barcode"></div>
-            
-            <div style="background: white; color: black; padding: 10px; font-weight: 900; letter-spacing: 4px; font-size: 13px; margin-bottom: 15px; border-radius: 4px;" id="tixSerial">SERIAL-ID</div>
-            <div style="font-size: 9px; color: #555; text-transform: uppercase; letter-spacing: 1px;" id="tixRowMeta">SEC GA / ROW FLOOR / PASS ACTIVE</div>
-        </div>
-        <button class="circle-close-btn" onclick="closePanel('ticketOverlay')">✕</button>
-    </div>
-
-    <script>
-        let currentCity = '', currentVenue = '', currentLocStr = '', currentCurrency = 'USD';
-        let pFan = 0, pReg = 0, pVip = 0, pSyk = 0;
-        let selectedTierName = '', selectedRowMeta = '', selectedFinalPrice = '';
-
-        function openPanel(id) { document.getElementById(id).classList.add('open'); }
-        function closePanel(id) { document.getElementById(id).classList.remove('open'); }
-        function openPanelFromMenu(id) { closePanel('menuOverlay'); setTimeout(() => { openPanel(id); }, 300); }
-
-        function selectTier(city, venue, locStr, currency, fanCost, regCost, vipCost, sykCost) {
-            currentCity = city; currentVenue = venue; currentLocStr = locStr; currentCurrency = currency;
-            pFan = fanCost; pReg = regCost; pVip = vipCost; pSyk = sykCost;
-            
-            const container = document.getElementById('tierButtonsContainer');
-            let buttonsHtml = '';
-            const symbol = currentCurrency === 'EUR' ? '€' : '$';
-
-            if (pFan > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FAN ZONE', 'SEC FZ / ROW FLOOR', ${pFan})">Fan Zone (${symbol}${pFan})</button>`;
-            if (pReg > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('REGULAR AREA', 'SEC GA / ROW MID', ${pReg})">Regular (${symbol}${pReg})</button>`;
-            if (pVip > 0) buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('VIP ACCESS PASS', 'SEC VIP / ROW FRONT', ${pVip})">VIP Area (${symbol}${pVip})</button>`;
-            if (pSyk > 0) buttonsHtml += `<button class="menu-btn" style="border-color: #ff3333; color: #ff3333;" onclick="reviewSelection('SYK PASS (BACKSTAGE)', 'SEC ALL-ACCESS / ROW SYK', ${pSyk})">SYK Backstage Pass (${symbol}${pSyk})</button>`;
-
-            container.innerHTML = buttonsHtml;
-            closePanel('tourOverlay');
-            setTimeout(() => { openPanel('tierOverlay'); }, 300);
-        }
-
-        function reviewSelection(tierName, rowMeta, costValue) {
-            closePanel('tierOverlay');
-            selectedTierName = tierName;
-            selectedRowMeta = rowMeta;
-            
-            const symbol = currentCurrency === 'EUR' ? '€' : '$';
-            selectedFinalPrice = symbol + costValue + '.00 ' + currentCurrency;
-
-            document.getElementById('confLocation').innerText = currentCity.toUpperCase();
-            document.getElementById('confTier').innerText = tierName;
-            document.getElementById('confPrice').innerText = selectedFinalPrice;
-
-            setTimeout(() => { openPanel('confirmOverlay'); }, 300);
-        }
-
-        function commitTicket() {
-            closePanel('confirmOverlay');
-            const serial = 'SK-' + Math.floor(100000 + Math.random() * 900000);
-            
-            document.getElementById('tixTitle').innerText = selectedTierName;
-            document.getElementById('tixVenue').innerText = currentVenue;
-            document.getElementById('tixLoc').innerText = currentLocStr;
-            document.getElementById('tixSerial').innerText = serial;
-            document.getElementById('tixRowMeta').innerText = selectedRowMeta + ' / PASS ACTIVE';
-
-            setTimeout(() => { openPanel('ticketOverlay'); }, 300);
-        }
-
-        function submitFanEmail() {
-            const emailInput = document.getElementById('fanEmailField');
-            if (emailInput.value.trim() !== "" && emailInput.value.includes('@')) {
-                document.getElementById('formWrapper').innerHTML = `
-                    <h2 style="font-size: 16px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 5px; color: #fff;">WELCOME</h2>
-                    <p style="font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px;">YOU HAVE BEEN ADDED TO THE SYKO REGISTRY.</p>
-                `;
-            } else {
-                alert('PLEASE ENTER A VALID EMAIL ADDRESS.');
-            }
-        }
-
-        // --- AUTOMATED VISIBILITY ENGINE ---
-        function autoMuteAndCleanShows() {
-            const currentDeviceTime = new Date();
-
-            // Day 1 row cleanses completely 1 hour from now (August 8, 2026 at 10:58 PM)
-            const day1RemoveDate = new Date(2026, 7, 8, 22, 58, 0); 
-            if (currentDeviceTime >= day1RemoveDate) {
-                const row1 = document.getElementById('day1Row');
-                if (row1) row1.remove();
-            }
-
-            // Day 2 turns to Sold Out tomorrow at 9:57 PM
-            const day2SoldOutDate = new Date(2026, 7, 9, 21, 57, 0); 
-            // Day 2 vanishes completely 1 hour later at 10:57 PM tomorrow night
-            const day2RemoveDate = new Date(2026, 7, 9, 22, 57, 0); 
-
-            if (currentDeviceTime >= day2RemoveDate) {
-                const row2 = document.getElementById('day2Row');
-                if (row2) row2.remove();
-            } else if (currentDeviceTime >= day2SoldOutDate) {
-                const btn2 = document.getElementById('day2Btn');
-                if (btn2) {
-                    btn2.innerText = "Sold Out";
-                    btn2.style.borderColor = "rgba(255,255,255,0.15)";
-                    btn2.style.color = "#444444";
-                    btn2.style.cursor = "not-allowed";
-                    btn2.onclick = function() { alert('This performance is completely sold out.'); };
-                }
-            }
-        }
-
-        autoMuteAndCleanShows();
-
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePanel('menuOverlay'); closePanel('tourOverlay');
-                closePanel('tierOverlay'); closePanel('confirmOverlay'); 
-                closePanel('ticketOverlay'); closePanel('emailOverlay');
-            }
-        });
-    </script>
-</body>
-</html>
+</div>
