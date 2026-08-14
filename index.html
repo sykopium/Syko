@@ -128,19 +128,21 @@
     <!-- DYNAMIC TOUR SCHEDULE WINDOW MODAL -->
     <div class="fullscreen-overlay" id="tourOverlay">
         <div class="tour-header"><div class="tour-title">Tour Dates</div></div>
-        <div class="tour-list">
+        <div class="tour-list" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 15px;">
             <!-- ASTROWORLD FESTIVAL ROW -->
-            <div class="tour-row">
+            <div class="tour-row" style="width: 100%;">
                 <div class="tour-date-details">
                     <div class="tour-date">AUG</div>
                     <div class="tour-venue">Houston, Texas<br>ASTROWORLD FEST</div>
                 </div>
                 <button class="ticket-btn" onclick="selectAstroworldTiers()">Tickets</button>
             </div>
-            <!-- Diamonds Club — Day 3 (Day 1 & Day 2 are now hidden automatically) -->
-            <div class="tour-row">
-                <div class="tour-date-details"><div class="tour-date">AUG</div><div class="tour-venue">Ferizaj — Diamonds Club (Day 3)</div></div>
-                <button class="ticket-btn" onclick="selectTier('Ferizaj', 'Diamonds Club day 3', 'Ferizaj', 'EUR', 0, 80, 100, 0)">Tickets</button>
+            
+            <!-- NEW: 96-HOUR LIVE COUNTDOWN SYSTEM DISPLAY -->
+            <div style="width: 100%; border-top: 1px solid #1c1c1c; padding-top: 30px; margin-top: 15px; text-align: center;">
+                <div style="font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Next Drop Countdown</div>
+                <div id="hourTimerDisplay" style="font-family: monospace; font-size: 42px; font-weight: bold; letter-spacing: 2px; color: #ffffff;">96:00:00</div>
+                <div style="font-size: 9px; color: #444; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px;">Hours : Minutes : Seconds</div>
             </div>
         </div>
         <button class="circle-close-btn" onclick="closePanel('tourOverlay')">✕</button>
@@ -300,7 +302,34 @@
                 closePanel('tierOverlay'); closePanel('confirmOverlay'); 
                 closePanel('ticketOverlay'); closePanel('emailOverlay');
             }
-        });
+        });        // Automated 96-Hour Engine (4 Days Rendered Strictly in Hours)
+        const targetCountdownDate = new Date().getTime() + (4 * 24 * 60 * 60 * 1000);
+
+        function updateHourTimer() {
+            const now = new Date().getTime();
+            const distance = targetCountdownDate - now;
+
+            if (distance < 0) {
+                document.getElementById("hourTimerDisplay").innerHTML = "00:00:00";
+                return;
+            }
+
+            // Calculate total remaining time strictly mapped as hours
+            const totalHours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Format numbers to always show double digits (e.g. 05 instead of 5)
+            const displayHours = totalHours < 10 ? "0" + totalHours : totalHours;
+            const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+            const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+
+            document.getElementById("hourTimerDisplay").innerHTML = displayHours + ":" + displayMinutes + ":" + displaySeconds;
+        }
+
+        // Fire the clock engine and cycle intervals every single second live
+        setInterval(updateHourTimer, 1000);
+        updateHourTimer();
     </script>
 </body>
 </html>
