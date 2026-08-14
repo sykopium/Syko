@@ -135,10 +135,11 @@
                     <div class="tour-date">AUG</div>
                     <div class="tour-venue">Houston, Texas<br>ASTROWORLD FEST</div>
                 </div>
-                <button class="ticket-btn" onclick="selectAstroworldTiers()">Tickets</button>
+                <!-- Tracked encrypted button locked until countdown completion -->
+                <button class="ticket-btn" id="astroTixBtn" style="border-color: rgba(255,255,255,0.15); color: #444444; cursor: not-allowed;" onclick="alert('Astroworld Ticket Matrices are currently encrypted. Allocation passes unlock when the countdown reaches 0.')">Locked</button>
             </div>
             
-            <!-- NEW: 96-HOUR LIVE COUNTDOWN SYSTEM DISPLAY -->
+            <!-- PERSISTENT LIVE HOURS-BASED COUNTDOWN SYSTEM DISPLAY -->
             <div style="width: 100%; border-top: 1px solid #1c1c1c; padding-top: 30px; margin-top: 15px; text-align: center;">
                 <div style="font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;">Next Drop Countdown</div>
                 <div id="hourTimerDisplay" style="font-family: monospace; font-size: 42px; font-weight: bold; letter-spacing: 2px; color: #ffffff;">96:00:00</div>
@@ -191,7 +192,6 @@
         </div>
         <button class="circle-close-btn" onclick="closePanel('ticketOverlay')">✕</button>
     </div>
-
     <script>
         let currentCity = '', currentVenue = '', currentLocStr = '', currentCurrency = 'USD';
         let pFan = 0, pReg = 0, pVip = 0, pSyk = 0;
@@ -226,12 +226,10 @@
             
             let buttonsHtml = '';
             
-            // Festival Multi-Day Passes
             buttonsHtml += `<div style="font-size:10px; color:#666; margin:10px 0 5px 0; text-transform:uppercase; letter-spacing:1px;">— Festival Passes —</div>`;
             buttonsHtml += `<button class="menu-btn" style="border-color:#ffffff; font-weight:bold;" onclick="reviewSelection('FESTIVAL DAY PASS', 'SEC GA / DAY ACCESS', 800)">Day Pass (${symbol}800)</button>`;
             buttonsHtml += `<button class="menu-btn" style="border-color:#ffffff; font-weight:bold;" onclick="reviewSelection('FESTIVAL 2 DAY PASS', 'SEC GA / 2 DAY PASS', 1500)">2 Day Pass (${symbol}1.5k)</button>`;
             
-            // Main Stage Layout Cards
             buttonsHtml += `<div style="font-size:10px; color:#666; margin:15px 0 5px 0; text-transform:uppercase; letter-spacing:1px;">— Main Stage Quadrants —</div>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('MAIN STAGE QUAD 1', 'SEC M1 / CAP 16.2k', 450)">Quadrant 1 (${symbol}450)</button>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('MAIN STAGE QUAD 2', 'SEC M2 / CAP 25.3k', 450)">Quadrant 2 (${symbol}450)</button>`;
@@ -239,13 +237,11 @@
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('MAIN STAGE QUAD 4', 'SEC M4 / CAP 45.2k', 200)">Quadrant 4 (${symbol}200)</button>`;
             buttonsHtml += `<button class="menu-btn" style="border-color:#e5a93c; color:#e5a93c;" onclick="reviewSelection('MAIN STAGE VIP', 'SEC MVIP / CAP 7k', 2000)">Main Stage VIP (${symbol}2000)</button>`;
             
-            // Second Stage Layout Cards
             buttonsHtml += `<div style="font-size:10px; color:#666; margin:15px 0 5px 0; text-transform:uppercase; letter-spacing:1px;">— Second Stage —</div>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('SECOND STAGE AREA 1', 'SEC S1 / CAP 25k', 500)">Stage 2 - Block 1 (${symbol}500)</button>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('SECOND STAGE AREA 2', 'SEC S2 / CAP 750', 2000)">Stage 2 - Block 2 (${symbol}2000)</button>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('SECOND STAGE AREA 3', 'SEC S3 / CAP 1.5M', 2500)">Stage 2 - Block 3 (${symbol}2500)</button>`;
             
-            // Third & Fourth Stage Layout Cards
             buttonsHtml += `<div style="font-size:10px; color:#666; margin:15px 0 5px 0; text-transform:uppercase; letter-spacing:1px;">— Alternative Stages —</div>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('THIRD STAGE AREA', 'SEC ST3 / CAP 20k', 300)">Third Stage Pass (${symbol}300)</button>`;
             buttonsHtml += `<button class="menu-btn" onclick="reviewSelection('FOURTH STAGE AREA', 'SEC ST4 / CAP 19k', 200)">Fourth Stage Pass (${symbol}200)</button>`;
@@ -296,30 +292,37 @@
             }
         }
 
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closePanel('menuOverlay'); closePanel('tourOverlay');
-                closePanel('tierOverlay'); closePanel('confirmOverlay'); 
-                closePanel('ticketOverlay'); closePanel('emailOverlay');
-            }
-        });        // Automated 96-Hour Engine (4 Days Rendered Strictly in Hours)
-        const targetCountdownDate = new Date().getTime() + (4 * 24 * 60 * 60 * 1000);
+        // --- PERSISTENT REAL-TIME COUNTDOWN MATRIX ENGINE ---
+        let savedDeadline = localStorage.getItem('sykoAstroTargetTime');
 
-        function updateHourTimer() {
+        if (!savedDeadline) {
+            savedDeadline = new Date().getTime() + (4 * 24 * 60 * 60 * 1000);
+            localStorage.setItem('sykoAstroTargetTime', savedDeadline);
+        } else {
+            savedDeadline = parseInt(savedDeadline);
+        }
+
+        function runPersistentClock() {
             const now = new Date().getTime();
-            const distance = targetCountdownDate - now;
+            const distance = savedDeadline - now;
+            const astroButton = document.getElementById('astroTixBtn');
 
-            if (distance < 0) {
+            if (distance <= 0) {
                 document.getElementById("hourTimerDisplay").innerHTML = "00:00:00";
+                if (astroButton && astroButton.innerText === "Locked") {
+                    astroButton.innerText = "Tickets";
+                    astroButton.style.borderColor = "#ffffff";
+                    astroButton.style.color = "#ffffff";
+                    astroButton.style.cursor = "pointer";
+                    astroButton.onclick = function() { selectAstroworldTiers(); };
+                }
                 return;
             }
 
-            // Calculate total remaining time strictly mapped as hours
             const totalHours = Math.floor(distance / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Format numbers to always show double digits (e.g. 05 instead of 5)
             const displayHours = totalHours < 10 ? "0" + totalHours : totalHours;
             const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
             const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
@@ -327,9 +330,16 @@
             document.getElementById("hourTimerDisplay").innerHTML = displayHours + ":" + displayMinutes + ":" + displaySeconds;
         }
 
-        // Fire the clock engine and cycle intervals every single second live
-        setInterval(updateHourTimer, 1000);
-        updateHourTimer();
+        setInterval(runPersistentClock, 1000);
+        runPersistentClock();
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closePanel('menuOverlay'); closePanel('tourOverlay');
+                closePanel('tierOverlay'); closePanel('confirmOverlay'); 
+                closePanel('ticketOverlay'); closePanel('emailOverlay');
+            }
+        });
     </script>
 </body>
 </html>
